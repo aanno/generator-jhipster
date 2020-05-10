@@ -402,7 +402,7 @@ module.exports = class extends BaseBlueprintGenerator {
                     this.log(logMsg);
                 } else {
                     try {
-                        this.installDependencies(installConfig);
+                        // this.installDependencies(installConfig);
                     } catch (e) {
                         this.warning('Install of dependencies failed!');
                         this.log(logMsg);

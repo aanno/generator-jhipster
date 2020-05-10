@@ -524,10 +524,10 @@ module.exports = class extends BaseBlueprintGenerator {
                     if (!this.options['skip-install']) {
                         if (this.clientPackageManager === 'yarn') {
                             this.log(chalk.bold(`\nInstalling generator-jhipster@${this.jhipsterVersion} locally using yarn`));
-                            this.yarnInstall();
+                            // this.yarnInstall();
                         } else if (this.clientPackageManager === 'npm') {
                             this.log(chalk.bold(`\nInstalling generator-jhipster@${this.jhipsterVersion} locally using npm`));
-                            this.npmInstall();
+                            // this.npmInstall();
                         }
                     }
                 }
