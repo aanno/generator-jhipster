@@ -1168,6 +1168,7 @@ module.exports = class extends PrivateBase {
      */
     callHooks(hookFor, hookType, options, cb) {
         const modules = this.getModuleHooks();
+        const lookup = this.env.lookup()
         // run through all module hooks, which matches the hookFor and hookType
         modules.forEach(module => {
             this.debug('Composing module with config:', module);
@@ -1177,6 +1178,7 @@ module.exports = class extends PrivateBase {
                 try {
                     this.composeExternalModule(module.npmPackageName, hook || 'app', options);
                 } catch (e) {
+                    this.error("composeExternalModule failed: " + JSON.stringify(e))
                     this.log(
                         chalk.red('Could not compose module ') +
                             chalk.bold.yellow(module.npmPackageName) +
@@ -1200,10 +1202,11 @@ module.exports = class extends PrivateBase {
      */
     composeExternalModule(npmPackageName, subGen, options) {
         try {
-            let generatorTocall = path.join(process.cwd(), 'node_modules', npmPackageName, 'generators', subGen);
+            let generatorTocall = path.join(process.cwd(), 'node_modules', npmPackageName,
+                'lib/generators', subGen, "/index.js");
             if (!fs.existsSync(generatorTocall)) {
                 this.debug('using global module as local version could not be found in node_modules');
-                generatorTocall = path.join(npmPackageName, 'generators', subGen);
+                generatorTocall = path.join(npmPackageName, 'lib/generators', subGen, "index.js");
             }
             this.debug('Running yeoman compose with options: ', generatorTocall, options);
             return this.composeWith(require.resolve(generatorTocall), options);
